@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sabadão 💗</title>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #f5e9ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .card {
+      background: #fff;
+      width: 90%;
+      max-width: 420px;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #ff7eb3;
+      color: #fff;
+      transition: 0.3s;
+      touch-action: manipulation;
+    }
+
+    button:hover {
+      background: #ff5f9e;
+    }
+
+    .small {
+      font-size: 0.85rem;
+      margin-top: 10px;
+      color: #777;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" id="app"></div>
+
+  <script>
+    let clicks = 0;
+
+    function setScreen(html) {
+      document.getElementById("app").innerHTML = html;
+    }
+
+    // Tela 1
+    setScreen(`
+      <h1>🏠 Curiosa</h1>
+      <p>
+        carregando curiosidade… 87%<br>
+        carregando sorriso… 99%<br><br>
+        tudo pronto para um sábado diferente?<br>
+        <span class="small">prometo que é melhor que spoiler de filme 👀</span>
+      </p>
+      <button onclick="screen2()">Confirmado</button>
+    `);
+
+    function screen2() {
+      setScreen(`
+        <h1>🎬 Sábado confirmado</h1>
+        <p>
+          🎬 Filme escolhido<br>
+          😂 Stand-up garantido<br>
+          ☕ Companhia excelente<br><br>
+          Status do dia:<br>
+          <strong>quase perfeito ✨</strong>
+        </p>
+        <button onclick="screen3()">Continuar</button>
+      `);
+    }
+
+    function screen3() {
+      setScreen(`
+        <h1>🍽️ Pós-stand-up</h1>
+        <p>
+          Stand-up encerrado ✔️<br>
+          risadas acumuladas ✔️<br>
+          energia lá em cima ✔️<br><br>
+          Fome detectada 😋<br><br>
+          <strong>Depois disso tudo…</strong><br>
+          o que você quer comer?
+        </p>
+
+        <button onclick="food()">🍕 Pizza</button>
+        <button onclick="food()">🍔 Hambúrguer</button>
+        <button onclick="food()">🍝 Massa</button>
+        <button onclick="food()">🍣 Sushi</button>
+      `);
+    }
+
+    function food() {
+      setScreen(`
+        <h1>😌 Boa escolha</h1>
+        <p>
+          Essa decisão diz muito sobre você…<br>
+          e eu gostei 💗
+        </p>
+        <button onclick="kiss()">Próximo</button>
+      `);
+    }
+
+    function kiss() {
+      setScreen(`
+        <h1>💋 Última fase</h1>
+        <p>
+          Depois do filme 🎬<br>
+          depois do stand-up 😂<br>
+          depois da comida 😋<br><br>
+          existe uma recompensa opcional…
+        </p>
+
+        <button onclick="secret()">😊 Sim</button>
+        <button onclick="maybe()">😳 Talvez</button>
+        <button onclick="maybe()">💭 Vamos ver</button>
+
+        <p class="small">
+          (dica: às vezes clicar duas vezes revela coisas 👀)
+        </p>
+      `);
+    }
+
+    function maybe() {
+      clicks++;
+      if (clicks >= 2) {
+        secret();
+      } else {
+        setScreen(`
+          <h1>😌 Tudo bem</h1>
+          <p>
+            Sem pressão nenhuma.<br>
+            O importante é estar ali 💗
+          </p>
+          <button onclick="kiss()">Voltar</button>
+        `);
+      }
+    }
+
+    function secret() {
+      setScreen(`
+        <h1>🔓 Final secreto</h1>
+        <p>
+          Confesso que isso aqui<br>
+          não estava no roteiro…<br><br>
+          mas algumas coisas<br>
+          só aparecem<br>
+          quando a gente escolhe ficar 😌
+        </p>
+
+        <p>
+          Sábado tem filme 🎬<br>
+          stand-up 😂<br>
+          comida boa 😋<br><br>
+          e talvez…<br>
+          se fizer sentido…<br>
+          <strong>um beijo no meio do caminho 💗</strong>
+        </p>
+
+        <p class="small">
+          Recompensa desbloqueada:<br>
+          +1 vontade de te ver<br>
+          +10 risadas<br>
+          +∞ carinho ✨
+        </p>
+
+        <button onclick="end()">Continuar ao vivo</button>
+      `);
+    }
+
+    function end() {
+      setScreen(`
+        <h1>✨ Agora é ao vivo</h1>
+        <p>
+         
+          <strong>O resto a gente vê sábado 😌</strong>
+        </p>
+      `);
+    }
+  </script>
+
+</body>
+</html>
