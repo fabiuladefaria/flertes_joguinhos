@@ -101,7 +101,7 @@
   let timer;
   let spawn;
   let spawnSpeed = 500;
-  const maxKisses = 3; // LIMITE NA TELA
+  const maxKisses = 4; // LIMITE NA TELA
 
   function startGame() {
     score = 0;
@@ -125,9 +125,9 @@
     time--;
     document.getElementById("time").innerText = time;
 
-    if (time === 8) updateSpeed(600);
-    if (time === 5) updateSpeed(400);
-    if (time === 3) updateSpeed(320);
+    if (time === 8) updateSpeed(800);
+    if (time === 5) updateSpeed(600);
+    if (time === 3) updateSpeed(420);
 
     if (time <= 0) {
       endGame();
