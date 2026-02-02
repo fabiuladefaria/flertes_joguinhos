@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>😏 Bom de memoria?</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #111827, #1f2933);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 16px;
+  }
+
+  .card {
+    background: #020617;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 22px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .item {
+    background: #111827;
+    border-radius: 14px;
+    padding: 18px 0;
+    font-size: 26px;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  .item.selected {
+    border-color: #ec4899;
+  }
+
+  button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 16px;
+    background: #ec4899;
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="app">
+  <h1>😏 Bom de memoria?</h1>
+  <p>
+    Observe com atenção.<br>
+    Nem todo mundo ganha algo aqui…
+  </p>
+  <button onclick="startGame()">Começar</button>
+</div>
+
+<script>
+  const allEmojis = ["💋","🔥","😏","💗","👀","🖤","✨","😈"];
+  let correct = [];
+  let selected = [];
+
+  function startGame() {
+    selected = [];
+    correct = shuffle([...allEmojis]).slice(0,5);
+
+    document.getElementById("app").innerHTML = `
+      <h1>👀 Memorize</h1>
+      <p>Esses emojis vão sumir…</p>
+      <div class="grid">
+        ${correct.map(e => `<div class="item">${e}</div>`).join("")}
+      </div>
+    `;
+
+    setTimeout(showChoices, 2000);
+  }
+
+  function showChoices() {
+    const choices = shuffle([...allEmojis]);
+
+    document.getElementById("app").innerHTML = `
+      <h1>🧠 Escolha</h1>
+      <p>Quais estavam ali?</p>
+      <div class="grid">
+        ${choices.map(e => `<div class="item" onclick="toggle(this,'${e}')">${e}</div>`).join("")}
+      </div>
+      <button onclick="check()">Confirmar</button>
+    `;
+  }
+
+  function toggle(el, emoji) {
+    if (selected.includes(emoji)) {
+      selected = selected.filter(e => e !== emoji);
+      el.classList.remove("selected");
+    } else {
+      selected.push(emoji);
+      el.classList.add("selected");
+    }
+  }
+
+  function check() {
+    let hits = selected.filter(e => correct.includes(e)).length;
+    let reward = "Não ganhou nada 😌";
+
+    if (hits === 1) reward = "Você ganhou carinho 💗";
+    if (hits === 2) reward = "Você ganhou um beijo 💋";
+    if (hits === 3) reward = "Beijo no pescoço 😏";
+    if (hits === 4) reward = "Vale date 🎟️✨";
+
+    document.getElementById("app").innerHTML = `
+      <h1>🔥 Resultado</h1>
+      <p>Você acertou <strong>${hits}</strong></p>
+      <p><strong>${reward}</strong></p>
+      <button onclick="startGame()">Jogar de novo</button>
+    `;
+  }
+
+  function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+  }
+</script>
+
+</body>
+</html>
