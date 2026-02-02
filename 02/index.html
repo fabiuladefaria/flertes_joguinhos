@@ -56,11 +56,11 @@
     position: absolute;
     font-size: 30px;
     cursor: pointer;
-    animation: pop 0.2s ease;
+    animation: pop 0.15s ease;
   }
 
   @keyframes pop {
-    from { transform: scale(0.5); }
+    from { transform: scale(0.4); }
     to { transform: scale(1); }
   }
 
@@ -97,13 +97,15 @@
 
 <script>
   let score = 0;
-  let time = 15;
+  let time = 12;
   let timer;
   let spawn;
+  let spawnSpeed = 500;
 
   function startGame() {
     score = 0;
-    time = 15;
+    time = 12;
+    spawnSpeed = 500;
 
     document.getElementById("app").innerHTML = `
       <h1>💋 Valendo!</h1>
@@ -115,21 +117,34 @@
     `;
 
     timer = setInterval(countdown, 1000);
-    spawn = setInterval(createKiss, 650);
+    startSpawning();
   }
 
   function countdown() {
     time--;
     document.getElementById("time").innerText = time;
 
+    // acelera conforme o tempo passa
+    if (time === 8) spawnSpeed = 400;
+    if (time === 5) spawnSpeed = 300;
+    if (time === 3) spawnSpeed = 220;
+
     if (time <= 0) {
       endGame();
     }
   }
 
+  function startSpawning() {
+    spawn = setInterval(createKiss, spawnSpeed);
+  }
+
   function createKiss() {
     const game = document.getElementById("game");
     if (!game) return;
+
+    // recria o intervalo se a velocidade mudou
+    clearInterval(spawn);
+    spawn = setInterval(createKiss, spawnSpeed);
 
     const kiss = document.createElement("div");
     kiss.className = "kiss";
@@ -149,18 +164,20 @@
 
     game.appendChild(kiss);
 
+    // vida mais curta
     setTimeout(() => {
       kiss.remove();
-    }, 850);
+    }, 500);
   }
 
   function endGame() {
     clearInterval(timer);
     clearInterval(spawn);
 
-    let msg = "Fofo… mas perigoso 😌";
-    if (score >= 8) msg = "Você pega beijos com facilidade 👀";
-    if (score >= 14) msg = "Ok… isso foi provocante demais 😳💋";
+    let msg = "Foi rápido… mas perigoso 😌";
+    if (score >= 8) msg = "Você reage rápido 👀";
+    if (score >= 14) msg = "Ok… isso foi intenso 😳💋";
+    if (score >= 18) msg = "Isso já virou provocação 😏🔥";
 
     document.getElementById("app").innerHTML = `
       <h1>🔥 Fim do jogo</h1>
