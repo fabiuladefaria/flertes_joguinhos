@@ -54,7 +54,7 @@
 
   .kiss {
     position: absolute;
-    font-size: 30px;
+    font-size: 28px;
     cursor: pointer;
     animation: pop 0.15s ease;
   }
@@ -101,6 +101,7 @@
   let timer;
   let spawn;
   let spawnSpeed = 500;
+  const maxKisses = 3; // LIMITE NA TELA
 
   function startGame() {
     score = 0;
@@ -117,24 +118,25 @@
     `;
 
     timer = setInterval(countdown, 1000);
-    startSpawning();
+    spawn = setInterval(createKiss, spawnSpeed);
   }
 
   function countdown() {
     time--;
     document.getElementById("time").innerText = time;
 
-    // acelera conforme o tempo passa
-    if (time === 8) spawnSpeed = 200;
-    if (time === 5) spawnSpeed = 150;
-    if (time === 3) spawnSpeed = 120;
+    if (time === 8) updateSpeed(400);
+    if (time === 5) updateSpeed(300);
+    if (time === 3) updateSpeed(220);
 
     if (time <= 0) {
       endGame();
     }
   }
 
-  function startSpawning() {
+  function updateSpeed(newSpeed) {
+    spawnSpeed = newSpeed;
+    clearInterval(spawn);
     spawn = setInterval(createKiss, spawnSpeed);
   }
 
@@ -142,9 +144,10 @@
     const game = document.getElementById("game");
     if (!game) return;
 
-    // recria o intervalo se a velocidade mudou
-    clearInterval(spawn);
-    spawn = setInterval(createKiss, spawnSpeed);
+    // NÃO deixa lotar a tela
+    if (game.querySelectorAll(".kiss").length >= maxKisses) {
+      return;
+    }
 
     const kiss = document.createElement("div");
     kiss.className = "kiss";
@@ -164,7 +167,6 @@
 
     game.appendChild(kiss);
 
-    // vida mais curta
     setTimeout(() => {
       kiss.remove();
     }, 500);
@@ -174,10 +176,10 @@
     clearInterval(timer);
     clearInterval(spawn);
 
-    let msg = "Foi rápido… mas perigoso 😌";
+    let msg = "Foi intenso 😌";
     if (score >= 8) msg = "Você reage rápido 👀";
-    if (score >= 14) msg = "Ok… isso foi intenso 😳💋";
-    if (score >= 18) msg = "Isso já virou provocação 😏🔥";
+    if (score >= 14) msg = "Isso ficou provocante 😳💋";
+    if (score >= 18) msg = "Ok… isso foi perigoso 😏🔥";
 
     document.getElementById("app").innerHTML = `
       <h1>🔥 Fim do jogo</h1>
