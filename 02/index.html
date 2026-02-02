@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💋 Não deixa escapar</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #ffdde8, #f7d1ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 16px;
+  }
+
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 22px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.15);
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .game {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    margin-top: 15px;
+    background: #fff0f6;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .kiss {
+    position: absolute;
+    font-size: 30px;
+    cursor: pointer;
+    animation: pop 0.2s ease;
+  }
+
+  @keyframes pop {
+    from { transform: scale(0.5); }
+    to { transform: scale(1); }
+  }
+
+  .info {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+
+  button {
+    margin-top: 14px;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 16px;
+    background: #ff5f9e;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="app">
+  <h1>💋 Não deixa escapar</h1>
+  <p>Toque nos beijos antes que eles sumam</p>
+  <button onclick="startGame()">Começar</button>
+</div>
+
+<script>
+  let score = 0;
+  let time = 15;
+  let timer;
+  let spawn;
+
+  function startGame() {
+    score = 0;
+    time = 15;
+
+    document.getElementById("app").innerHTML = `
+      <h1>💋 Valendo!</h1>
+      <div class="game" id="game"></div>
+      <div class="info">
+        ⏱️ <span id="time">${time}</span>s |
+        💋 <span id="score">${score}</span>
+      </div>
+    `;
+
+    timer = setInterval(countdown, 1000);
+    spawn = setInterval(createKiss, 650);
+  }
+
+  function countdown() {
+    time--;
+    document.getElementById("time").innerText = time;
+
+    if (time <= 0) {
+      endGame();
+    }
+  }
+
+  function createKiss() {
+    const game = document.getElementById("game");
+    if (!game) return;
+
+    const kiss = document.createElement("div");
+    kiss.className = "kiss";
+    kiss.innerText = "💋";
+
+    const x = Math.random() * (game.clientWidth - 30);
+    const y = Math.random() * (game.clientHeight - 30);
+
+    kiss.style.left = x + "px";
+    kiss.style.top = y + "px";
+
+    kiss.onclick = () => {
+      score++;
+      document.getElementById("score").innerText = score;
+      kiss.remove();
+    };
+
+    game.appendChild(kiss);
+
+    setTimeout(() => {
+      kiss.remove();
+    }, 850);
+  }
+
+  function endGame() {
+    clearInterval(timer);
+    clearInterval(spawn);
+
+    let msg = "Fofo… mas perigoso 😌";
+    if (score >= 8) msg = "Você pega beijos com facilidade 👀";
+    if (score >= 14) msg = "Ok… isso foi provocante demais 😳💋";
+
+    document.getElementById("app").innerHTML = `
+      <h1>🔥 Fim do jogo</h1>
+      <p>${msg}</p>
+      <p>Você pegou <strong>${score}</strong> beijos 💋</p>
+      <button onclick="startGame()">Jogar de novo</button>
+    `;
+  }
+</script>
+
+</body>
+</html>
