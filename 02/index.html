@@ -97,16 +97,16 @@
 
 <script>
   let score = 0;
-  let time = 12;
+  let time = 15;              // JOGO UM POUCO MAIS LONGO
   let timer;
   let spawn;
-  let spawnSpeed = 500;
-  const maxKisses = 4; // LIMITE NA TELA
+  let spawnSpeed = 900;       // MAIS LENTO
+  const maxKisses = 4;        // LIMITE NA TELA
 
   function startGame() {
     score = 0;
-    time = 12;
-    spawnSpeed = 500;
+    time = 15;
+    spawnSpeed = 900;
 
     document.getElementById("app").innerHTML = `
       <h1>💋 Valendo!</h1>
@@ -125,9 +125,10 @@
     time--;
     document.getElementById("time").innerText = time;
 
-    if (time === 8) updateSpeed(800);
-    if (time === 5) updateSpeed(600);
-    if (time === 3) updateSpeed(420);
+    // ACELERAÇÃO MAIS SUAVE
+    if (time === 10) updateSpeed(1000);
+    if (time === 6) updateSpeed(850);
+    if (time === 3) updateSpeed(700);
 
     if (time <= 0) {
       endGame();
@@ -144,7 +145,6 @@
     const game = document.getElementById("game");
     if (!game) return;
 
-    // NÃO deixa lotar a tela
     if (game.querySelectorAll(".kiss").length >= maxKisses) {
       return;
     }
@@ -167,9 +167,10 @@
 
     game.appendChild(kiss);
 
+    // BEIJO FICA MAIS TEMPO NA TELA
     setTimeout(() => {
       kiss.remove();
-    }, 500);
+    }, 1000);
   }
 
   function endGame() {
